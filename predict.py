@@ -8,8 +8,8 @@ face_recognizer.read("model/model.yaml")
 read_image = cv2.imread("test-data/test5.jpg")
 
 # Predict image.
-predicted_img = predict(read_image)
+predict_img = predict(read_image)
 
-cv2.imshow(classification_label[3], cv2.resize(predicted_img, (400, 500)))
+cv2.imshow(classification_label[3], cv2.resize(predict_img, (400, 500)))
 cv2.waitKey(0)
 cv2.destroyAllWindows()
