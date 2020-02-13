@@ -472,13 +472,6 @@ cv2.destroyAllWindows()
     Predicting images...
     Prediction complete
 
-
-
-![png](output_43_1.png)
-
-
-wohooo! Is'nt it beautiful? Indeed, it is! 
-
 ## End Notes
 
 Face Recognition is a fascinating idea to work on and OpenCV has made it extremely simple and easy for us to code it. It just takes a few lines of code to have a fully working face recognition application and we can switch between all three face recognizers with a single line of code change. It's that simple. 
