@@ -2,6 +2,14 @@ import cv2
 import os
 import numpy as np
 
+
+#there is no label 0 in our training data so subject name for index/label 0 is empty
+classification_label = ["unknow", "Ramiz Raja", "Elvis Presley", "Michael"]
+
+#create our LBPH face recognizer 
+face_recognizer = cv2.face.LBPHFaceRecognizer_create()
+
+
 #function to detect face using OpenCV
 def detect_face(img):
     #convert the test image to gray image as opencv face detector expects gray images
@@ -25,6 +33,7 @@ def detect_face(img):
     
     #return only the face part of the image
     return gray[y:y+w, x:x+h], faces[0]
+
 
 
 def prepare_training_data(data_folder_path):
@@ -77,7 +86,7 @@ def prepare_training_data(data_folder_path):
             
             #display an image window to show the image 
             cv2.imshow("Training on image...", cv2.resize(image, (400, 500)))
-            cv2.waitKey(100)
+            cv2.waitKey(50)
             
             #detect face
             face, rect = detect_face(image)
@@ -90,12 +99,11 @@ def prepare_training_data(data_folder_path):
                 faces.append(face)
                 #add label for this face
                 labels.append(label)
-            
-    cv2.destroyAllWindows()
     cv2.waitKey(1)
     cv2.destroyAllWindows()
     
     return faces, labels
+
 
 
 def draw_rectangle(img, rect):
@@ -103,26 +111,29 @@ def draw_rectangle(img, rect):
     cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 2)
     
 
+
 def draw_text(img, text, x, y):
     cv2.putText(img, text, (x, y), cv2.FONT_HERSHEY_PLAIN, 1.5, (0, 255, 0), 2)
 
 
-def predict(test_img, face_recognizer_object, subjects):
+
+def predict(predict_img):
     #make a copy of the image as we don't want to chang original image
-    img = test_img.copy()
+    img = predict_img.copy()
+
     #detect face from the image
     face, rect = detect_face(img)
 
     #predict the image using our face recognizer 
-    label, confidence = face_recognizer_object.predict(face)
+    label, confidence = face_recognizer.predict(face)
+
     #get name of respective label returned by face recognizer
-    label_text = subjects[label]
+    label_text = classification_label[label]
     
     #draw a rectangle around face detected
     draw_rectangle(img, rect)
+
     #draw name of predicted person
     draw_text(img, label_text, rect[0], rect[1]-5)
     
     return img
-
-
